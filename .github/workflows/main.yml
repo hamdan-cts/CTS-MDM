@@ -1,0 +1,16 @@
+name: Check Swift Compilation
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Force Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+        
+      - name: Compile Code
+        run: |
+          xcodebuild -workspace *.xcworkspace -scheme MTDE EMAIL- IOS -sdk iphoneos clean build CODE_SIGNING_ALLOWED=NO || \
+          xcodebuild -project *.xcodeproj -scheme YourAppName -sdk iphoneos clean build CODE_SIGNING_ALLOWED=NO
